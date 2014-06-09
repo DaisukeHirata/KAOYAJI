@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>iOS style - UI Table View | jQuery Samples</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0-beta.1/jquery.mobile-1.3.0-beta.1.min.css" />
+<link rel="stylesheet" href="../common/css/ios_inspired/styles.css">
+<link rel="stylesheet" href="css/uiTableView.css" />
+<link rel="stylesheet" href="css/my.css">
+<style>
+.ui-content {
+	padding: 0;
+}
+</style>
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.3.0-beta.1/jquery.mobile-1.3.0-beta.1.min.js"></script>
+<script src="js/jquery.uiTableView.js"></script>
+<script>
+$(function() {
+
+	var categoryCount = {},
+			image = null;
+
+	$(window).on('load', function(e) {
+
+		$('.tableview').uiTableView();
+
+		$(window).on('resize orientationchange', function(e) {
+			resizeTableView(0);
+		});
+
+		var margin = 0;
+		if (navigator.userAgent.indexOf('iPhone') && $.browser.safari) {
+			margin = 60;
+		}
+		resizeTableView(margin);
+
+		var canvas = document.getElementById("canvas"),
+				context = canvas.getContext('2d');
+				canvas.width  = 100;
+				canvas.height = 100;
+
+  	image = new Image(),
+//	  image.src = "images/picture.jpg";
+	  image.src = "images/zara.gif";
+	  image.onload = function () {
+		  	context.drawImage(image, 10, 10, 60, 60);
+	  };
+
+	});
+
+	$('.tableview dl dd').on('click', function(e) {
+		var category = $(this).parent("dl").children().html();
+		if (category in categoryCount) {
+			categoryCount[category]++;
+		} else {
+			categoryCount[category] = 1;
+		}
+
+		console.log(
+			Math.max.apply(
+				null,
+				Object.keys(categoryCount).map(function(e) {
+		                                return categoryCount[e];
+		                        })
+			)
+		);
+
+		var max = 0;
+		for (var key in categoryCount) {
+			console.log(categoryCount[key]);
+			if (max < categoryCount[key]) max = categoryCount[key];
+		}
+
+		//for () {}
+
+		image.src = "images/cat.jpg";
+		//console.log($(this).html());
+		//console.log(category);
+		//console.log(categoryCount[category]);
+	});
+
+	function resizeTableView(margin) {
+		var offsetTop = $('.tableview').offset().top,
+			footerHeight = $('.ui-footer').outerHeight(),
+			$tableViewWrapper = $('.tableview').parent();
+
+		var h = $(window).height() - offsetTop - footerHeight + margin;
+		$tableViewWrapper.height(h);
+	}
+
+});
+</script>
+</head>
+<body>
+
+<!--
+<canvas id="canvas"></canvas>
+-->
+
+<img src="images/zara.gif" width="400" style="position: relative; top: 40px; right: -500px; z-index: 2000;">
+<div id="tableviewPage" data-role="page">
+
+	<div data-role="header">
+		<h1>朝日新聞ニュース</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<div class="tableview">
+			<dl>
+				<dt>経済</dt>
+				<dd>負担増元年、家計にずしり　消費増税、年金減も</dd>
+				<dd>（異才面談：２）元サッカー日本代表監督・岡田武史さん　リアルな中国知って考えた</dd>
+				<dd>消費増税に備え、商店街支援強化　政府、法改正案提出へ</dd>
+			</dl>
+			<dl>
+				<dt>社会</dt>
+				<dd>（脱主流派宣言：１）富士山頂、狙いません　下りてこそ見える景色もある</dd>
+				<dd>警官刺され発砲、男重体　タクシー強盗、職質中　都内</dd>
+				<dd>「父です」名乗り迷子を誘拐容疑　倉敷、１時間後保護</dd>
+				<dd>（脱主流派宣言：２）コンビニやめました　客に寄り添う酒屋</dd>
+				<dd>農薬検出品、１カ所で包装　マルハニチロ、社内聴取へ</dd>
+			</dl>
+			<dl>
+				<dt>総合</dt>
+				<dd>（教育２０１４　世界は　日本は：１）グローバルって何　めざす、世界の１％</dd>
+				<dd>農薬検出、立件へ捜査　冷凍食品、意図的に混入か</dd>
+				<dd>（教育２０１４　世界は　日本は：２）格差を超える　暮らしのせいにしない</dd>
+				<dd>クライスラーをフィアットが統合</dd>
+				<dd>増税前に福よ来い　初売りに行列</dd>
+			</dl>
+			<dl>
+				<dt>オピニオン１</dt>
+				<dd>（２０１４　もう一つの生き方）宇田智子さん、立川志の春さん、太田英基さん</dd>
+				<dd>（過去　２０１４　未来）災害が時代を映す　福嶋亮大さん、都築響一さん、北原糸子さん</dd>
+				<dd>（ジャン・ピサニフェリー教授のコラム＠パリ）ユーロ圏の経済回復</dd>
+			</dl>
+		</div>
+	</div><!-- /content -->
+
+<!--
+	<div data-role="footer" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a id="tabA" href="#" data-icon="custom" class="ui-btn-active">Menu item 1</a></li>
+				<li><a id="tabB" href="#" data-icon="custom">Menu item 2</a></li>
+				<li><a id="tabC" href="#" data-icon="custom">Menu item 3</a></li>
+			</ul>
+		</div>
+	</div>
+-->
+</div><!-- /page -->
+
+</body>
+</html>
